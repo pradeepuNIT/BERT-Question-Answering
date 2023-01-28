@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<main role="main" class="container">
+  <div class="mt-4 col-md-12 text-center">
+      <h2>Comprehension Reading - Question Answering</h1>
+      <!-- Author -->
+      <p class="lead">
+        by
+        <a href="http://www.avenirdigital.ai">Avenir Digital</a>
+      </p>
+  </div>
+
+  <div id='alerts' class='alert pt-0' style='height: 40px'>
+
+  </div>
+
+  <div class='row text-center justify-content-center mt-4'>
+      <label class="control-label col-sm-1 text-right my-auto" for="model">Model:</label>
+      <div class="col-sm-3">
+        <select id="model" class="form-control selectpicker">
+          <option value="" disabled selected>None</option>
+          <option value="bert_base_uncased_squad1.1_0">bert_base_uncased_squad1.1_0</option>
+          <option value="bert_base_uncased_squad2.0_0">bert_base_uncased_squad2.0_0</option>
+          <option value="traydstream_ucp_trained_on_bert_base">traydstream_ucp_trained_on_bert_base</option>
+          <option value="traydstream_ucp_trained_on_squadv1">traydstream_ucp_trained_on_squadv1</option>
+        </select> 
+      </div>
+      <label class='control-label col-sm-2 my-auto text-right' for='skip_paraselection'>Skip content screening:</label>
+      <div class='col-sm-1 my-auto text-left'>
+        <input type="checkbox" name="skip_paraselection" id='skip_paraselection' />
+      </div>
+      <label class='control-label col-sm-1 text-right my-auto' for='top_count'>Top:</label>
+      <div class='col-sm-2 my-auto text-left'>
+        <select id="top_count" class="form-control selectpicker">
+        </select>
+      </div>
+  </div>
+
+  <section id="tabs" class="project-tab mt-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 border border-primary border-bottom-0">
+                <nav>
+                    <div class="nav nav-tabs nav-fill mb-2" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-csv-tab" data-toggle="tab" href="#nav-csv" role="tab" aria-controls="nav-csv" aria-selected="true">Import from file</a>
+                        <a class="nav-item nav-link" id="nav-paragraphs-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Fill paragraphs</a>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-csv" role="tabpanel" aria-labelledby="nav-csv-tab">
+                      <div class="panel">
+                        <div class="button_outer">
+                          <div class="btn_upload">
+                            <form id="upload-file" method="post" enctype="multipart/form-data">
+                              <label for="file" class="btn pt-0">Upload .csv</label>
+                              <input type="file" style="visibility:hidden;" id="file" name='file'>
+                            </form>
+                          </div>s
+                        </div>
+                        <br>
+                        <div class="button_outer">
+                          <div class="btn_upload">
+                            <form id="upload-content-file" method="post" enctype="multipart/form-data">
+                              <label for="content_file" class="btn pt-0">Upload content</label>
+                              <input type="file" style="visibility:hidden;" id="content_file" name='content_file'>
+                            </form>
+                          </div>
+                        </div>
+
+                      </div>
+                      <div id='csv_content_section' class='pl-2 pr-2'></div>
+                    </div>
+                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-paragraphs-tab">
+                        <div id='content_section' class='pl-2 pr-2'>
+                          <div class='row ml-0 mr-0 mt-2 mb-2'>
+                            <span class='col-md-10'></span>
+                            <button type='button' class='btn btn-primary mb-2 col-md-2' id='delete_all'>Delete all</button>
+                          </div>
+                          <div class='paragraphs_class'>
+                            <div class='row ml-0 mr-0 mb-2'>
+                              <div class="margin col-md-10">Title: <input type="text" class='title' placeholder="Title" counter='1' value='Paragraph 1'></div>
+                              <button type='button' class="btn btn-info col-md-2 d-none delete_paragraph" counter='1' disabled>Delete</button>
+                            </div>
+                            <div>
+                              <textarea placeholder="Enter the paragraph..." class='paragraph mb-5' counter='1'></textarea>  
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <button type="button" class="btn btn-dark mb-4" id='add_new_paragraph'>Add new paragraph</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="card my-3">
+                <!-- <button type='button' class='btn btn-info' id='update_context'>Update context</button> -->
+                <h5 class="card-header text-center">QnA</h5>
+                <div class="card-body">
+                  <div>
+                    <textarea placeholder="Enter your question." id="question" name="question" style="height: 85px;"></textarea>  
+                  </div>
+                  <div class='row align-items-center'>
+                    <div class="col-md-5">
+                      <button id="get_answer" class="btn btn-primary">Get Answer</button>
+                    </div>
+                    <div class="col-md-7" id='question_error'></div>
+                  </div>
+                  <div id='answers_section'>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <br/>
+                <div class="container">
+                  <button type="button" class="btn btn-dark" data-toggle="collapse" data-target="#search_in" id='select_button' style='width:100%'>
+                    <span class="caret">Search in </span>
+                  </button>
+                  <ul id='search_in' class="list-group collapse" style='width:100%'>
+                    <button type='button' class='btn btn-default' id='clear_selection'>
+                      Clear selection
+                    </button>
+                    <div id='select_paragraphs'>
+                    </div>
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+</main>
+
+{% endblock content %}

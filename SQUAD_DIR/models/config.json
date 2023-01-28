@@ -1,0 +1,61 @@
+{
+	"bert_base_uncased": {
+		"vocab_file": "BERT_BASE_DIR/vocab.txt",
+		"bert_config_file": "BERT_BASE_DIR/bert_config.json",
+		"version": {
+			"v1.1": {
+				"0": {
+					"directory": "batch12_lr3e-5_epochs2.0_slen384_stride128_anslen30",
+					"checkpoint": "model.ckpt",
+					"train_batch_size": 12,
+					"learning_rate": 3e-5,
+					"num_train_epochs": 2.0,
+					"max_seq_length": 384,
+					"doc_stride": 128,
+					"max_query_length": 64,
+					"max_answer_length": 30
+				}
+			},
+			"v2.0": {
+				"0": {
+					"directory": "batch12_lr3e-5_epochs2.0_slen384_stride128_anslen30",
+					"checkpoint": "model.ckpt",
+					"train_batch_size": 12,
+					"learning_rate": 3e-5,
+					"num_train_epochs": 2.0,
+					"max_seq_length": 384,
+					"doc_stride": 128,
+					"max_query_length": 64,
+					"max_answer_length": 30,
+					"version_2_with_negative": true,
+					"null_score_diff_threshold": 0
+				}
+			},
+			"traydstream_ucp600": {
+				"0": {
+					"directory": "ucp_on_bert_base_batch12_epochs20",
+					"checkpoint": "model.ckpt-298",
+					"train_batch_size": 12,
+					"learning_rate": 3e-5,
+					"num_train_epochs": 2.0,
+					"max_seq_length": 512,
+					"doc_stride": 128,
+					"max_query_length": 64,
+					"max_answer_length": 512
+				},
+				"1": {
+					"directory": "ucp_on_squadv1_batch12_epochs20",
+					"checkpoint": "model.ckpt-298",
+					"train_batch_size": 12,
+					"learning_rate": 3e-5,
+					"num_train_epochs": 2.0,
+					"max_seq_length": 512,
+					"doc_stride": 128,
+					"max_query_length": 64,
+					"max_answer_length": 512
+				}
+			}
+		}
+	}
+
+}
